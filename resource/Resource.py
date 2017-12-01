@@ -22,7 +22,7 @@ class Resource(object):
         String representation of the object.
         :return: None
         """
-        print(self.path, '-->', self.digest)
+        return self.path + ' --> ' + self.digest
 
     def get(self):
         """
