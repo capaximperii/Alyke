@@ -14,4 +14,19 @@ class CrawlerBlueprint(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def __iter__(self):
-        pass
+        """
+        
+        :return: 
+        """
+
+    @abc.abstractstaticmethod
+    def partial_reader(filename, chunk_size):
+        """
+        Abstract method for reading a file in chunks
+        """
+
+    @abc.abstractstaticmethod
+    def compute_digest(filename):
+        """
+        Abstract method for hashing a file
+        """
