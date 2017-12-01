@@ -1,20 +1,33 @@
 """
+Each asset discovered and processed by Crawler is encapsulated as Resource.
 
 """
 
-import hashlib
-
 class Resource(object):
+    """
+    
+    Represents each result object as a hash computed from the contents.
+    """
     def __init__(self, path=None, digest=None):
-        self.update(path, digest)
-
-    def update(self, path, digest):
+        """
+        Constructor for a resource
+        :param path: URL to the resource
+        :param digest: Application specific digest for comparision and equality
+        """
         self.path = path
         self.digest = digest
 
     def __str__(self):
+        """
+        String representation of the object.
+        :return: None
+        """
         print(self.path, '-->', self.digest)
 
     def get(self):
+        """
+        Represents resource as a tuple
+        :return: Tuple
+        """
         return (self.digest, self.path)
 
