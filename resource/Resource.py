@@ -31,3 +31,11 @@ class Resource(object):
         """
         return (self.digest, self.path)
 
+
+    def set(self, digest):
+        """
+        Sets digest of a resource
+        :param digest of the file
+        :return: 
+        """
+        self.digest = digest

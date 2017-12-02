@@ -27,7 +27,7 @@ class CrawlerBlueprint(metaclass=abc.ABCMeta):
         :return: chunk_size bytes read from the resource.
         """
 
-    @abc.abstractstaticmethod
+    @abc.abstractmethod
     def compute_digest(filename):
         """
         Abstract method for hashing a file this can be content dependent.

@@ -2,6 +2,7 @@
 
 Represents the application as a module.
 """
+from multiprocessing import Pool
 
 from alyke.Config import Config
 from crawler import CrawlerFactory
@@ -11,6 +12,17 @@ import logging
 logger = logging.getLogger("Alyke")
 
 HASHES = {}
+
+def hash_check(resource):
+    resource.compute_digest()
+    return resource
+
+def print_result(resource):
+    if resource.digest in HASHES.keys():
+        logger.info("Found duplicate file: %s of %s" % (resource.path, HASHES[resource.digest]))
+    else:
+        HASHES[resource.digest] = resource.path
+
 
 class App(object):
     """ 
@@ -29,20 +41,15 @@ class App(object):
         self.config.update(cmdline)
         self.crawler = CrawlerFactory.create_crawler(self.config.crawler_type, self.config.base_path)
 
+
     def find_duplicates(self):
         """
         Utility function that walks path and discovers duplicates.
         
         :return: void 
         """
-        count = 0
-        for resource in self.crawler:
-            if resource.digest in HASHES.keys():
-                logger.info("Found duplicate file: %s of %s" % (resource.path, HASHES[resource.digest]))
-                count += 1
-            else:
-                HASHES[resource.digest] = resource.path
-        if count == 0:
-            logger.info("No duplicates found.")
-        else:
-            logger.info("Duplicates found: %d" % (count))
+        pool = Pool(processes=10)
+        for i in self.crawler:
+            pool.apply_async(hash_check, args=(i,), callback=print_result)
+        pool.close()
+        pool.join()
