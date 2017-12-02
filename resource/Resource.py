@@ -5,10 +5,10 @@ Each asset discovered and processed by Crawler is encapsulated as Resource.
 
 class Resource(object):
     """
-    
+
     Represents each result object as a hash computed from the contents.
     """
-    def __init__(self, path=None, digest=None):
+    def __init__(self, path=None, digest=None, compute_digest=None):
         """
         Constructor for a resource
         :param path: URL to the resource
@@ -16,13 +16,14 @@ class Resource(object):
         """
         self.path = path
         self.digest = digest
+        self.compute_digest = compute_digest
 
     def __str__(self):
         """
         String representation of the object.
         :return: None
         """
-        return self.path + ' --> ' + self.digest
+        return self.path + ' --> ' + str(self.digest)
 
     def get(self):
         """
@@ -31,11 +32,10 @@ class Resource(object):
         """
         return (self.digest, self.path)
 
-
     def set(self, digest):
         """
         Sets digest of a resource
         :param digest of the file
-        :return: 
+        :return:
         """
         self.digest = digest

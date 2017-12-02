@@ -31,7 +31,7 @@ class DiskCrawler(CrawlerBlueprint):
         for f in self.path.glob('**/*'):
             if f.is_file() and not os.stat(str(f.resolve())).st_size == 0:
                 # digest = DiskCrawler.compute_digest(str(f.resolve()))
-                yield Resource(str(f.resolve()), None)
+                yield Resource(str(f.resolve()), '', DiskCrawler.compute_digest)
 
     @staticmethod
     def partial_reader(filename, chunk_size):
@@ -52,14 +52,15 @@ class DiskCrawler(CrawlerBlueprint):
             logger.error("IOError: %s" %(str(e)), exc_info=True)
             return
 
-    def compute_digest(self):
+    @staticmethod
+    def compute_digest(path):
         """
         Computes a hash depending on the content in the file.
-        
+
         :param path: URL or the resource. 
         :return: SHA-512 digest of the file contents.
         """
         hash = hashlib.sha512()
-        for part in DiskCrawler.partial_reader(self.path, 4 * 1024 * 1024):
+        for part in DiskCrawler.partial_reader(path, 4 * 1024 * 1024):
             hash.update(part)
-        self.digest = hash.hexdigest
+        return hash.hexdigest()
