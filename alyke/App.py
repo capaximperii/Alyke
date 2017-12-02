@@ -5,7 +5,7 @@ Represents the application as a module.
 
 from alyke.Config import Config
 from crawler import CrawlerFactory
-from settings import config
+from settings import config as cfg
 import logging
 
 logger = logging.getLogger("Alyke")
@@ -17,13 +17,16 @@ class App(object):
     Encapsulates application logic.
     
     """
-    def __init__(self):
+    def __init__(self, cmdline):
         """
         Constructor uses Abstract Factory pattern and instantiates a Crawler depending on 
         settings specified by the user.
         
         """
-        self.config = Config(config)
+        # Remove all unset values.
+        cmdline = dict((k, v) for k, v in cmdline.items() if v is not None)
+        self.config = Config(cfg)
+        self.config.update(cmdline)
         self.crawler = CrawlerFactory.create_crawler(self.config.crawler_type, self.config.base_path)
 
     def find_duplicates(self):

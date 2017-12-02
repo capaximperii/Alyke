@@ -1,9 +1,19 @@
 """
-Entry point of the program.
+Alyke: Duplicate file detector.
 
+Usage:
+  main.py [--crawler_type=<type>] [--base_path=<path>]
+  main.py -h | --help
+
+Options:
+  -h --help     Show this screen.
+  --crawler_type=<type>  One of disk, web.
+  --base_path=<path> URL to start checking from
 """
+
 import time
 import logging
+from docopt import docopt
 from alyke import App
 
 def setup_logging(log_level):
@@ -17,7 +27,8 @@ def setup_logging(log_level):
 
 if __name__ == '__main__':
     start_time = time.time()
-    app = App()
+    cmdline = docopt(__doc__)
+    app = App(cmdline)
     logger = setup_logging(app.config.log_level)
     logger.debug("--- Starting ---")
     app.find_duplicates()

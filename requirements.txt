@@ -1,6 +1,8 @@
 #Dependencies
 pathlib==1.0.1
 
+# Command line parser
+docopt==0.6.2
 
 # Test frameworks
 pytest==3.1.2
