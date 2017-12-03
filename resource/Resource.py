@@ -20,7 +20,7 @@ class Resource(object):
 
         """
         self.path = path
-        self.digest = None
+        self.digest = ''
         self.compute_digest_algo = partial(compute_digest, self.path)
 
     def __str__(self):
