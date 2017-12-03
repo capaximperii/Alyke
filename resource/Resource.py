@@ -21,7 +21,7 @@ class Resource(object):
         """
         self.path = path
         self.digest = None
-        self.compute_digest = partial(compute_digest,  self.path)
+        self.compute_digest_algo = partial(compute_digest, self.path)
 
     def __str__(self):
         """
@@ -40,10 +40,10 @@ class Resource(object):
         return (self.digest, self.path)
 
 
-    def set_digest(self):
+    def compute_digest(self):
         """
         Sets the digest of the Resource.
         :param: digest of the asset
 
         """
-        self.digest = self.compute_digest()
+        self.digest = self.compute_digest_algo()

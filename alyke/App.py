@@ -37,7 +37,7 @@ class App(object):
         """
         count = 0
         for resource in self.crawler:
-            resource.set_digest()
+            resource.compute_digest()
             if resource.digest in HASHES.keys():
                 logger.info("Found duplicate file: %s of %s" % (resource.path, HASHES[resource.digest]))
                 count += 1
