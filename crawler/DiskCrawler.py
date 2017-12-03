@@ -23,6 +23,8 @@ class DiskCrawler(CrawlerBlueprint):
         :param base: The base path in the filesystem to start exploring from. 
 
         """
+        if not os.path.isdir(base):
+            raise ValueError("Path is invalid " + base)
         super(DiskCrawler, self).__init__(base);
         self.path = Path(base)
 
