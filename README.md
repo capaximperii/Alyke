@@ -40,4 +40,15 @@ There are 3 branches, each implement a slightly different variant:
 * Iterable
 * Strategy
 
+### Command line useage
 
+```sh
+Usage:
+  python main.py [--crawler_type=<type>] [--base_path=<path>]
+  python main.py -h | --help
+
+Options:
+  -h --help     Show this screen.
+  --crawler_type=<type>  One of disk, web.
+  --base_path=<path> URL to start checking from
+```
