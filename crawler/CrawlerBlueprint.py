@@ -6,9 +6,11 @@ for Crawler implementations to ihnerit from.
 
 import abc
 
+
 class CrawlerBlueprint(metaclass=abc.ABCMeta):
     """
     Crawler implementation classes common constructor.
+
     """
     def __init__(self, base):
         self.base = base
@@ -18,6 +20,7 @@ class CrawlerBlueprint(metaclass=abc.ABCMeta):
         """
         Iterator design pattern to abstract away how concrete crawlers crawl and fetch data.
         :return: Standard Iterator 
+
         """
 
     @abc.abstractstaticmethod
@@ -25,6 +28,7 @@ class CrawlerBlueprint(metaclass=abc.ABCMeta):
         """
         Abstract method for reading a file in chunks
         :return: chunk_size bytes read from the resource.
+
         """
 
     @abc.abstractstaticmethod

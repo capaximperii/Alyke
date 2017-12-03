@@ -1,6 +1,8 @@
 """
 Locally connected storage crawler implementation.
 
+The compute_digest is application specific and passed as a strategy
+pattern in the context of Resource.
 """
 import os
 import hashlib
@@ -19,6 +21,7 @@ class DiskCrawler(CrawlerBlueprint):
         """
         Constructor
         :param base: The base path in the filesystem to start exploring from. 
+
         """
         super(DiskCrawler, self).__init__(base);
         self.path = Path(base)
@@ -26,12 +29,12 @@ class DiskCrawler(CrawlerBlueprint):
     def __iter__(self):
         """
         Implements a generator to process one file at a time.
-        :return: 
+        :return:
+ 
         """
         for f in self.path.glob('**/*'):
             if f.is_file() and not os.stat(str(f.resolve())).st_size == 0:
-                digest = DiskCrawler.compute_digest(str(f.resolve()))
-                yield Resource(str(f.resolve()), digest)
+                yield Resource(str(f.resolve()), DiskCrawler.compute_digest)
 
     @staticmethod
     def partial_reader(filename, chunk_size):
@@ -39,6 +42,7 @@ class DiskCrawler(CrawlerBlueprint):
         Generator that reads a file in chunks of bytes
         :param: chunk_size to read from the file
         :return: chunk_size bytes
+
         """
         try:
             file = open(filename, 'rb')
@@ -58,6 +62,7 @@ class DiskCrawler(CrawlerBlueprint):
         
         :param path: URL or the resource. 
         :return: SHA-512 digest of the file contents.
+
         """
         hash = hashlib.sha512()
         for part in DiskCrawler.partial_reader(path, 4 * 1024 * 1024):
